@@ -15,6 +15,40 @@ import numpy
 from math import sqrt
 import matplotlib.dates as mdates
 
+
+#ye teen chise update karni pari mere ko
+import inspect
+import os
+import xml.etree.ElementTree as et
+#
+
+base_path=( os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe()))))
+#print(base_path) yaha se mere ko hum jis directory main curently hai uska path mil gya
+xml_file=os.path.join(base_path,"\\datacenters.xml")
+#print(xml_file) yaha par hum iss current python file ko and xml file jispe humko kaam karna hai ko join kar diye
+e = xml.etree.ElementTree.parse('datacenters.xml') #doubt->yaha pta nhi kyo xml_file dalne se error aa raha tha aur jab direct file ka naam daal diya to sahi hai y??
+root=e.getroot() #root mai xml ka root tag aa gya
+
+a=[21,32,43,54]  #example hai jisse humko list ka value badalna hai
+i=0
+for child in root: #root hai entry element then uske andr bht sare bache honge here child usse ko bta raha hai
+    for element in child: #aab child k bhi bht sare bache honge,element uss chis ko bta raha hai
+        if(element.tag=='greenEnergy'): #now ssince humko greenenergy badlna tha to hum search kiye ki element ka tag jab greenEnergy ho thn
+                element.text=str(a[i]) # change the value with our above taken example
+                i=i+1                   #upar str(a[i]) jo likhe hai wo isliye kyoki xml m har chis string ki tarah hee jata hai agar aise hee update kare to while writing back it is showing error that it is not serializable
+#now when i m seeing whther it is changing or not				
+for child in root:
+    for element in child:
+        if(element.tag=='greenEnergy'):
+            print(element.tag,":",element.text)
+#it is changing here now to reflect back in xml file 
+#just write simple command
+e.write("datacenters.xml")
+ #isse update ho jayegi xml file ka greenEnergy tag
+ 
+ 
+
+
 print(datetime.now)
 def parser(a,b,c,d):
     return datetime.strptime('%s %s %s %s' % (a, b, c, d),'%Y %j %H %M')
@@ -106,4 +140,11 @@ abcd=numpy.arange(1,25)
 pyplot.plot(abcd,hourly)
 pyplot.xlabel('Energy Generated (kWh)',fontsize=20)
 pyplot.ylabel('Hours of the Day',fontsize=20)
+
+
+
+
+
+
+
 
